@@ -1,43 +1,37 @@
-def hitung(a, b, c, d, e):
-    total = a + b + c + d + e
-    rata = total / 5
-    if rata >= 75:
-        print("A")
-    elif rata >= 70:
-        print("B")
-    elif rata >= 55:
-        print("C")
-    elif rata >= 40:
-        print("D")
-    else:
-        print("E")
+# nilai.py - afterperbaikan penamaan dan magic number
 
-def simpan(nama, a, b, c, d, e):
-    total = a + b + c + d + e
-    rata = total / 5
-    if rata >= 75:
-        grade = "A"
-    elif rata >= 70:
-        grade = "B"
-    elif rata >= 55:
-        grade = "C"
-    elif rata >= 40:
-        grade = "D"
+BATAS_GRADE_A = 75
+BATAS_GRADE_B = 70
+BATAS_GRADE_C = 55
+BATAS_GRADE_D = 40
+
+def tentukan_grade(rata_rata):
+    if rata_rata >= BATAS_GRADE_A:
+        return "A"
+    elif rata_rata >= BATAS_GRADE_B:
+        return "B"
+    elif rata_rata >= BATAS_GRADE_C:
+        return "C"
+    elif rata_rata >= BATAS_GRADE_D:
+        return "D"
     else:
-        grade = "E"
-    data = [nama, a, b, c, d, e, rata, grade]
-    return data
+        return "E"
+
+def hitung_rata_rata(daftar_nilai):
+    return sum(daftar_nilai) / len(daftar_nilai)
 
 mahasiswa = []
 
-def tambah(nm, n1, n2, n3, n4, n5):
-    mahasiswa.append(simpan(nm, n1, n2, n3, n4, n5))
+def tambah_mahasiswa(nama, daftar_nilai):
+    rata_rata = hitung_rata_rata(daftar_nilai)
+    grade = tentukan_grade(rata_rata)
+    mahasiswa.append([nama, daftar_nilai, rata_rata, grade])
 
-def tampil():
-    for x in mahasiswa:
-        print(x[0], x[6], x[7])
+def tampilkan_semua():
+    for data in mahasiswa:
+        print(f"Nama: {data[0]}, Rata-rata: {data[2]:.2f}, Grade: {data[3]}")
 
-tambah("rena", 80, 75, 90, 85, 70)
-tambah("susi", 60, 55, 65, 70, 50)
-tambah("didi", 40, 45, 35, 50, 30)
-tampil()
+tambah_mahasiswa("Budi", [80, 75, 90, 85, 70])
+tambah_mahasiswa("Ani", [60, 55, 65, 70, 50])
+tambah_mahasiswa("Citra", [40, 45, 35, 50, 30])
+tampilkan_semua()
