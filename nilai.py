@@ -1,37 +1,48 @@
-# nilai.py - afterperbaikan penamaan dan magic number
+# nilai.py = eliminasi duplikasi dengan OOP
 
-BATAS_GRADE_A = 75
-BATAS_GRADE_B = 70
-BATAS_GRADE_C = 55
-BATAS_GRADE_D = 40
+BATAS_GRADE = {
+    "A": 75,
+    "B": 70,
+    "C": 55,
+    "D": 40,
+}
 
-def tentukan_grade(rata_rata):
-    if rata_rata >= BATAS_GRADE_A:
-        return "A"
-    elif rata_rata >= BATAS_GRADE_B:
-        return "B"
-    elif rata_rata >= BATAS_GRADE_C:
-        return "C"
-    elif rata_rata >= BATAS_GRADE_D:
-        return "D"
-    else:
+class Mahasiswa:
+    def __init__(self, nama, daftar_nilai):
+        self.nama = nama
+        self.daftar_nilai = daftar_nilai
+        self.rata_rata = self._hitung_rata_rata()
+        self.grade = self._tentukan_grade()
+
+    def _hitung_rata_rata(self):
+        return sum(self.daftar_nilai) / len(self.daftar_nilai)
+
+    def _tentukan_grade(self):
+        for grade, batas in BATAS_GRADE.items():
+            if self.rata_rata >= batas:
+                return grade
         return "E"
 
-def hitung_rata_rata(daftar_nilai):
-    return sum(daftar_nilai) / len(daftar_nilai)
+    def tampilkan(self):
+        print(f"Nama: {self.nama}, Rata-rata: {self.rata_rata:.2f}, Grade: {self.grade}")
 
-mahasiswa = []
 
-def tambah_mahasiswa(nama, daftar_nilai):
-    rata_rata = hitung_rata_rata(daftar_nilai)
-    grade = tentukan_grade(rata_rata)
-    mahasiswa.append([nama, daftar_nilai, rata_rata, grade])
+class KelasNilai:
+    def __init__(self):
+        self.daftar_mahasiswa = []
 
-def tampilkan_semua():
-    for data in mahasiswa:
-        print(f"Nama: {data[0]}, Rata-rata: {data[2]:.2f}, Grade: {data[3]}")
+    def tambah(self, nama, daftar_nilai):
+        mhs = Mahasiswa(nama, daftar_nilai)
+        self.daftar_mahasiswa.append(mhs)
 
-tambah_mahasiswa("Budi", [80, 75, 90, 85, 70])
-tambah_mahasiswa("Ani", [60, 55, 65, 70, 50])
-tambah_mahasiswa("Citra", [40, 45, 35, 50, 30])
-tampilkan_semua()
+    def tampilkan_semua(self):
+        for mhs in self.daftar_mahasiswa:
+            mhs.tampilkan()
+
+
+if __name__ == "__main__":
+    kelas = KelasNilai()
+    kelas.tambah("Budi", [80, 75, 90, 85, 70])
+    kelas.tambah("Ani", [60, 55, 65, 70, 50])
+    kelas.tambah("Citra", [40, 45, 35, 50, 30])
+    kelas.tampilkan_semua()
